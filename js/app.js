@@ -31,7 +31,6 @@ var Player = function(x, y){
     this.x = x;
     this.y = y;
     this.sprite = 'images/char-boy.png';
-
 };
 
 Player.prototype.update = function(){
@@ -42,16 +41,14 @@ Player.prototype.render = function(){
 };
 
 // Now instantiate your objects.
-var player = new Player(3,4);
-
-
 // Place all enemy objects in an array called allEnemies
-var en = new Enemy(2,2);
-var allEnemies = [];
-allEnemies.push(en);
-//en.render();
-// Place the player object in a variable called player
+var allEnemies = [
+    new Enemy(0,0),
+    new Enemy(200,200)
+];
 
+// Place the player object in a variable called player
+var player = new Player(203,400);
 
 
 // This listens for key presses and sends the keys to your
