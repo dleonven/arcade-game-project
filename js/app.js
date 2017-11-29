@@ -62,12 +62,46 @@ var Player = function(x, y){
 };
 
 Player.prototype.update = function(){
+  allEnemies.forEach(function (element){
+    if(element.x + 40 >= player.x - 40 && player.x + 40 >= element.x - 40 && element.y == player.y){
+      player.x = 203;
+      player.y = 400;
+    }
+  });
 };
 
 Player.prototype.render = function(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+Player.prototype.handleInput = function(e){
+    if (e == "left") {
+      if(player.x > 3){
+        player.x -= 100;
+      }
+    }
+    else if (e == "right") {
+      if(player.x < 403){
+        player.x += 100;
+      }
+    }
+    else if (e == "up") {
+      player.y -= 85;
+
+      //if the player reaches the water, go back to the starting point
+      if(player.y < 60){
+        player.x = 203;
+        player.y = 400;
+      }
+    }
+    else if (e == "down") {
+      if(player.y < 400){
+        player.y += 85;
+      }
+    }
+    console.log(player.x);
+    console.log(player.y);
+};
 
 
 // Now instantiate your objects.
@@ -82,6 +116,8 @@ var allEnemies = [
 var player = new Player(203,400);
 
 
+
+
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
@@ -91,6 +127,5 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });
