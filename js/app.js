@@ -1,4 +1,10 @@
 
+//with these constants, the user can play with different enemy speed range
+const minSpeed = 10000;
+const maxSpeed = 20000;
+const dt = 0.017
+
+//this method returns a random posible starting position for the enemies
 function posibleStartingPosition(){
     let startingPosition;
     const aux = Math.floor(Math.random() * 3) + 1;
@@ -11,11 +17,7 @@ function posibleStartingPosition(){
     return startingPosition;
 }
 
-const minSpeed = 10000;
-const maxSpeed = 20000;
-const dt = 0.017
-
-
+//this method returns a random between the constants declared before
 function getSpeed() {
   return Math.floor(Math.random() * (maxSpeed - minSpeed)) + minSpeed;
 }
@@ -38,9 +40,14 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+    //if the enemy is still on the canvas, then move it
     if(this.x < 505){
         this.x += this.speed * dt;
-    } else{
+    }
+
+    //if it's outside, then set to a random posible starting position, with a random new speed
+    else{
         this.x = -100;
         this.y = posibleStartingPosition();
         this.speed = getSpeed()*dt;
@@ -62,6 +69,7 @@ var Player = function(x, y){
 };
 
 Player.prototype.update = function(){
+  //foreach enemy in the array, if it hits the player, then take the player to the starting point
   allEnemies.forEach(function (element){
     if(element.x + 40 >= player.x - 40 && player.x + 40 >= element.x - 40 && element.y == player.y){
       player.x = 203;
@@ -75,6 +83,7 @@ Player.prototype.render = function(){
 };
 
 Player.prototype.handleInput = function(e){
+  //posible player movements
     if (e == "left") {
       if(player.x > 3){
         player.x -= 100;
@@ -99,8 +108,6 @@ Player.prototype.handleInput = function(e){
         player.y += 85;
       }
     }
-    console.log(player.x);
-    console.log(player.y);
 };
 
 
