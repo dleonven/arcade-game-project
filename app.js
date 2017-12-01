@@ -86,27 +86,27 @@ Player.prototype.render = function(){
 Player.prototype.handleInput = function(e){
   //posible player movements
   if (e == "left") {
-    if(player.x > 3){
-      player.x -= 100;
+    if(this.x > 3){
+      this.x -= 100;
     }
   }
   else if (e == "right") {
-    if(player.x < 403){
-      player.x += 100;
+    if(this.x < 403){
+      this.x += 100;
     }
   }
   else if (e == "up") {
-    player.y -= 85;
+    this.y -= 85;
 
     //if the player reaches the water, go back to the starting point
-    if(player.y < 60){
-      player.x = 203;
-      player.y = 400;
+    if(this.y < 60){
+      this.x = 203;
+      this.y = 400;
     }
   }
   else if (e == "down") {
-    if(player.y < 400){
-      player.y += 85;
+    if(this.y < 400){
+      this.y += 85;
     }
   }
 };
