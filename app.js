@@ -3,7 +3,7 @@
 //with these constants, the user can play with different enemy speed range
 const MIN_SPEED = 10000;
 const MAX_SPEED = 20000;
-const dt = 0.017
+let speed;
 
 //this method returns a random posible starting position for the enemies
 function posibleStartingPosition(){
@@ -20,7 +20,9 @@ function posibleStartingPosition(){
 
 //this method returns a random between the constants declared before
 function getSpeed() {
+
   return Math.floor(Math.random() * (MAX_SPEED - MIN_SPEED)) + MIN_SPEED;
+
 }
 
 // Enemies our player must avoid
@@ -42,9 +44,11 @@ Enemy.prototype.update = function(dt) {
   // which will ensure the game runs at the same speed for
   // all computers.
 
+  speed = this.speed*dt;
+
   //if the enemy is still on the canvas, then move it
   if(this.x < 505){
-    this.x += this.speed * dt;
+    this.x += speed;
   }
 
   //if it's outside, then set to a random posible starting position, with a random new speed
@@ -70,13 +74,13 @@ var Player = function(x, y){
 };
 
 Player.prototype.update = function(){
-  //foreach enemy in the array, if it hits the player, then take the player to the starting point
-  allEnemies.forEach(function (element){
-    if(element.x + 40 >= player.x - 40 && player.x + 40 >= element.x - 40 && element.y == player.y){
-      player.x = 203;
-      player.y = 400;
+  //for every enemy in the array, if it hits the player, then take the player to the starting point
+  for (var i = 0; i < allEnemies.length; i++) {
+    if(allEnemies[i].x + 40 >= this.x - 40 && this.x + 40 >= allEnemies[i].x - 40 && allEnemies[i].y == this.y){
+      this.x = 203;
+      this.y = 400;
     }
-  });
+  }
 };
 
 Player.prototype.render = function(){
@@ -115,9 +119,9 @@ Player.prototype.handleInput = function(e){
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [
-  new Enemy(-100,posibleStartingPosition(),dt*getSpeed()),
-  new Enemy(-100,posibleStartingPosition(),dt*getSpeed()),
-  new Enemy(-100,posibleStartingPosition(),dt*getSpeed())
+  new Enemy(-100,posibleStartingPosition(),getSpeed()),
+  new Enemy(-100,posibleStartingPosition(),getSpeed()),
+  new Enemy(-100,posibleStartingPosition(),getSpeed())
 ];
 
 // Place the player object in a variable called player
