@@ -1,25 +1,28 @@
+'use strict;'
 
 //with these constants, the user can play with different enemy speed range
-const minSpeed = 10000;
-const maxSpeed = 20000;
-const dt = 0.017
+const MIN_SPEED = 10000;
+const MAX_SPEED = 20000;
+let speed;
 
 //this method returns a random posible starting position for the enemies
 function posibleStartingPosition(){
   let startingPosition;
   const aux = Math.floor(Math.random() * 3) + 1;
   if(aux == 1){
-    startingPosition = 60
-  } else if (aux == 2) {
-    startingPosition = 145
-  } else startingPosition = 230
+    startingPosition = 60;
+  } else if (aux == 2){
+    startingPosition = 145;
+  } else startingPosition = 230;
 
   return startingPosition;
 }
 
 //this method returns a random between the constants declared before
 function getSpeed() {
-  return Math.floor(Math.random() * (maxSpeed - minSpeed)) + minSpeed;
+
+  return Math.floor(Math.random() * (MAX_SPEED - MIN_SPEED)) + MIN_SPEED;
+
 }
 
 // Enemies our player must avoid
@@ -41,9 +44,11 @@ Enemy.prototype.update = function(dt) {
   // which will ensure the game runs at the same speed for
   // all computers.
 
+  speed = this.speed*dt;
+
   //if the enemy is still on the canvas, then move it
   if(this.x < 505){
-    this.x += this.speed * dt;
+    this.x += speed;
   }
 
   //if it's outside, then set to a random posible starting position, with a random new speed
@@ -69,13 +74,13 @@ var Player = function(x, y){
 };
 
 Player.prototype.update = function(){
-  //foreach enemy in the array, if it hits the player, then take the player to the starting point
-  allEnemies.forEach(function (element){
-    if(element.x + 40 >= player.x - 40 && player.x + 40 >= element.x - 40 && element.y == player.y){
-      player.x = 203;
-      player.y = 400;
+  //for every enemy in the array, if it hits the player, then take the player to the starting point
+  for (var i = 0; i < allEnemies.length; i++) {
+    if(allEnemies[i].x + 40 >= this.x - 40 && this.x + 40 >= allEnemies[i].x - 40 && allEnemies[i].y == this.y){
+      this.x = 203;
+      this.y = 400;
     }
-  });
+  }
 };
 
 Player.prototype.render = function(){
@@ -85,27 +90,27 @@ Player.prototype.render = function(){
 Player.prototype.handleInput = function(e){
   //posible player movements
   if (e == "left") {
-    if(player.x > 3){
-      player.x -= 100;
+    if(this.x > 3){
+      this.x -= 100;
     }
   }
   else if (e == "right") {
-    if(player.x < 403){
-      player.x += 100;
+    if(this.x < 403){
+      this.x += 100;
     }
   }
   else if (e == "up") {
-    player.y -= 85;
+    this.y -= 85;
 
     //if the player reaches the water, go back to the starting point
-    if(player.y < 60){
-      player.x = 203;
-      player.y = 400;
+    if(this.y < 60){
+      this.x = 203;
+      this.y = 400;
     }
   }
   else if (e == "down") {
-    if(player.y < 400){
-      player.y += 85;
+    if(this.y < 400){
+      this.y += 85;
     }
   }
 };
@@ -114,9 +119,9 @@ Player.prototype.handleInput = function(e){
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [
-  new Enemy(-100,posibleStartingPosition(),dt*getSpeed()),
-  new Enemy(-100,posibleStartingPosition(),dt*getSpeed()),
-  new Enemy(-100,posibleStartingPosition(),dt*getSpeed())
+  new Enemy(-100,posibleStartingPosition(),getSpeed()),
+  new Enemy(-100,posibleStartingPosition(),getSpeed()),
+  new Enemy(-100,posibleStartingPosition(),getSpeed())
 ];
 
 // Place the player object in a variable called player
